@@ -15,9 +15,10 @@ spec:
       labels:
         app: {{ include "webapp.name" . }}
     spec:
+      serviceAccountName: {{ include "webapp.fullname" . }}-sa
       containers:
         - name: {{ include "webapp.name" . }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          image: "{{ .Values.image.tag }}"
           ports:
             - containerPort: 8080
           env:
@@ -26,3 +27,8 @@ spec:
                 secretKeyRef:
                   name: mongodb-connection-string
                   key: connectionString
+            - name: SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: jwt_secret

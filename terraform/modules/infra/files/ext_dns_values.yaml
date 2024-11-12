@@ -1,0 +1,13 @@
+domainFilters: ["valeriy-denisov.com"]
+policy: upsert-only
+interval: "1h"
+
+# Set environment variables to retrieve the Cloudflare API token from the Kubernetes Secret
+provider:
+  name: cloudflare
+env:
+  - name: CF_API_TOKEN
+    valueFrom:
+      secretKeyRef:
+        name: cloudflare-api-token
+        key: cloudflare-api-token

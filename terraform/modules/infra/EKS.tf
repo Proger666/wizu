@@ -65,10 +65,13 @@ module "eks_blueprints_addons" {
   external_secrets = {
     values = [templatefile("${path.module}/files/eso_values.yaml", {})]
   }
+  enable_external_dns = true
+  external_dns = {
+    values = [templatefile("${path.module}/files/ext_dns_values.yaml", {})]
+  }
   enable_cluster_proportional_autoscaler = false
   enable_karpenter                       = false
   enable_kube_prometheus_stack           = false
   enable_metrics_server                  = false
-  enable_external_dns                    = false
   enable_cert_manager                    = false
 }

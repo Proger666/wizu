@@ -14,8 +14,7 @@ spec:
     deletionPolicy: Retain
     template:
       data:
-        connectionString: |
-          "mongodb://{{`{{ .username }}`}}:{{`{{ .password }}`}}@{{`{{ .host }}`}}:27017"
+        connectionString: mongodb://{{`{{ .username }}`}}:{{`{{ .password }}`}}@{{`{{ .host }}`}}:27017
   data:
     - secretKey: username
       remoteRef:

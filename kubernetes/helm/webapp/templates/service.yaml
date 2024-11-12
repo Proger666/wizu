@@ -3,14 +3,17 @@ kind: Service
 metadata:
   name: {{ include "webapp.fullname" . }}
   namespace: {{ .Values.global.namespace }}
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
+    external-dns.alpha.kubernetes.io/hostname: "webapp.valeriy-denisov.com"
   labels:
     {{- include "webapp.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port }}
-      targetPort: http
+      targetPort: 8080
       protocol: TCP
       name: http
   selector:
-    {{- include "webapp.selectorLabels" . | nindent 4 }}
+    app: {{ include "webapp.name" . }}

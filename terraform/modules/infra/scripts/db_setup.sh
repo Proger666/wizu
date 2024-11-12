@@ -32,6 +32,9 @@ DB_PASSWORD=$(echo $DB_CREDENTIALS | jq -r '.password')
 # Create admin user in MongoDB
 mongosh admin --eval "db.createUser({user: '$DB_USERNAME', pwd: '$DB_PASSWORD', roles:[{role:'root',db:'admin'}]});"
 
+# Update MongoDB configuration to allow external connections
+sed -i 's/bindIp: 127.0.0.1/bindIp: 0.0.0.0/' /etc/mongod.conf
+
 # Enable authentication in MongoDB configuration
 sed -i '/#security:/a\security:\n  authorization: "enabled"' /etc/mongod.conf
 

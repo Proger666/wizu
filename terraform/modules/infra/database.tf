@@ -67,10 +67,13 @@ data "aws_ami" "ubuntu" {
 }
 
 resource "aws_secretsmanager_secret" "mongodb_host" {
-  name = "prod/mongodb_host"
+  name       = "prod/mongodb_host"
+  depends_on = [aws_instance.db_instance]
 }
 
 resource "aws_secretsmanager_secret_version" "mongodb_host" {
   secret_id     = aws_secretsmanager_secret.mongodb_host.id
   secret_string = jsonencode({ host = aws_instance.db_instance.public_dns })
+
+  depends_on = [aws_instance.db_instance]
 }

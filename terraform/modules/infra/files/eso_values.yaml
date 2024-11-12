@@ -1,3 +1,24 @@
 installCRDs: true
 crds:
   createClusterSecretStore: true
+
+extraObjects:
+  - apiVersion: external-secrets.io/v1beta1
+    kind: ExternalSecret
+    metadata:
+      name: cloudflare-api-token
+      namespace: external-dns
+    spec:
+      data:
+        - remoteRef:
+            key: prod/cf-token
+            property: token
+          secretKey: cloudflare-api-token
+      refreshInterval: 1h
+      secretStoreRef:
+        kind: ClusterSecretStore
+        name: aws-secretsmanager
+      target:
+        creationPolicy: Owner
+        deletionPolicy: Retain
+        name: cloudflare-api-token

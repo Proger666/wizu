@@ -15,7 +15,7 @@ spec:
     template:
       data:
         connectionString: |
-          mongodb://{{`{{ .username }}`}}:{{`{{ .password }}`}}@{{`{{ .host }}`}}:27017
+          "mongodb://{{`{{ .username }}`}}:{{`{{ .password }}`}}@{{`{{ .host }}`}}:27017"
   data:
     - secretKey: username
       remoteRef:

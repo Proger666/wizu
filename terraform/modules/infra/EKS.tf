@@ -30,7 +30,7 @@ module "eks" {
   eks_managed_node_groups = {
     worker = {
       ami_type       = "AL2_x86_64" # Default EKS AMI type for managed node groups
-      instance_types = ["t3.medium"]
+      instance_types = ["t3.large"]
       key_name       = var.ssh_key_pair_name
       min_size       = 1
       max_size       = 2
@@ -47,14 +47,28 @@ module "eks" {
 
 
 #install required infra addons to EKS
-module "eks_infra_addons" {
-  source = "../eks_addons"
+module "eks_blueprints_addons" {
+  source  = "aws-ia/eks-blueprints-addons/aws" #AWS SA module
+  version = "~> 1.19"
 
-  install_argo              = true
-  install_aws_lb_controller = true
+  cluster_name      = module.eks.cluster_name
+  cluster_endpoint  = module.eks.cluster_endpoint
+  cluster_version   = module.eks.cluster_version
+  oidc_provider_arn = module.eks.oidc_provider_arn
 
-  eks_oidc_arn   = module.eks.oidc_provider_arn
-  eks_cluster_id = module.eks.cluster_name
-
-  depends_on = [module.eks]
+  enable_aws_load_balancer_controller = true
+  enable_argocd                       = true
+  argocd = {
+    values = [templatefile("${path.module}/files/argocd_values.yaml", {})]
+  }
+  enable_external_secrets = true
+  external_secrets = {
+    values = [templatefile("${path.module}/files/eso_values.yaml", {})]
+  }
+  enable_cluster_proportional_autoscaler = false
+  enable_karpenter                       = false
+  enable_kube_prometheus_stack           = false
+  enable_metrics_server                  = false
+  enable_external_dns                    = false
+  enable_cert_manager                    = false
 }

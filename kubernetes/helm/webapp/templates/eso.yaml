@@ -1,0 +1,31 @@
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: mongodb-connection-string
+  namespace: {{ .Values.global.namespace }}
+spec:
+  refreshInterval: "1h"
+  secretStoreRef:
+    name: aws-secretsmanager
+    kind: ClusterSecretStore
+  target:
+    name: mongodb-connection-string
+    creationPolicy: Owner
+    deletionPolicy: Retain
+    template:
+      data:
+        connectionString: |
+          mongodb://{{`{{ .username }}`}}:{{`{{ .password }}`}}@{{`{{ .host }}`}}:27017
+  data:
+    - secretKey: username
+      remoteRef:
+        key: prod/db_credentials
+        property: username
+    - secretKey: password
+      remoteRef:
+        key: prod/db_credentials
+        property: password
+    - secretKey: host
+      remoteRef:
+        key: prod/mongodb_host
+        property: host

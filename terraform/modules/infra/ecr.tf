@@ -5,8 +5,8 @@ locals {
 module "ecr" {
   source = "terraform-aws-modules/ecr/aws"
 
-  repository_name = "${var.environment}-app"
-
+  repository_name                   = "${var.environment}-app"
+  repository_read_write_access_arns = [module.eks.cluster_iam_role_arn, "arn:aws:iam::617850135881:user/jenkins-temp"]
   repository_lifecycle_policy = jsonencode({
     rules = [
       {

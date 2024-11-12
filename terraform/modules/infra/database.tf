@@ -65,3 +65,12 @@ data "aws_ami" "ubuntu" {
     values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"]
   }
 }
+
+resource "aws_secretsmanager_secret" "mongodb_host" {
+  name = "prod/mongodb_host"
+}
+
+resource "aws_secretsmanager_secret_version" "mongodb_host" {
+  secret_id     = aws_secretsmanager_secret.mongodb_host.id
+  secret_string = jsonencode({ host = aws_instance.db_instance.public_dns })
+}

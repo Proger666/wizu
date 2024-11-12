@@ -1,8 +1,13 @@
 # outputs.tf
 
-output "instance_public_ip" {
-  description = "The public IP address of the EC2 instance."
-  value       = aws_instance.db_instance.public_ip
+output "ecr_repository_url" {
+  description = "ECR repository URL"
+  value       = module.ecr.repository_url
+}
+
+output "mongodb_host" {
+  description = "MongoDB EC2 instance public DNS"
+  value       = aws_instance.db_instance.public_dns
 }
 
 output "eks_cluster_endpoint" {

@@ -1,0 +1,15 @@
+replicaCount: 1
+
+global:
+  namespace: "webapp"
+  aws:
+    region: "us-east-2"
+image:
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+service:
+  type: LoadBalancer
+  port: 8080
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing

@@ -15,3 +15,14 @@ variable "install_aws_lb_controller" {
   type    = bool
   default = true
 }
+
+variable "install_external_secrets_operator" {
+  type    = bool
+  default = false
+}
+
+variable "installation_region" {
+  description = "Region where resources will be deployed"
+  type        = string
+  default     = "us-east-2"
+}

@@ -4,7 +4,7 @@ global:
   namespace: "webapp"
   aws:
     region: "us-east-2"
-image:
+image: 617850135881.dkr.ecr.us-east-2.amazonaws.com/prod-app:latest-21
   pullPolicy: IfNotPresent
   tag: "latest"
 

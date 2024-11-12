@@ -16,8 +16,14 @@ spec:
     server: https://kubernetes.default.svc
     namespace: webapp
   syncPolicy:
-    syncOptions:
-      - CreateNamespace=true
     automated:
       prune: true
       selfHeal: true
+    retry:
+      limit: 5
+      backoff:
+        duration: "5s"             # Time between retries
+        factor: 2                  # Backoff factor for exponential retries
+        maxDuration: "3m"          # Maximum time to wait between retries
+    syncOptions:
+      - CreateNamespace=true       # Auto-create the namespace if it does not exist

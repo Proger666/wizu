@@ -11,7 +11,7 @@ output "mongodb_host" {
 }
 
 output "eks_cluster_endpoint" {
-  description = "EKS cluster endpoint."
+  description = "EKS cluster endpoint"
   value       = module.eks.cluster_endpoint
 }
 

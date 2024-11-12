@@ -6,7 +6,7 @@ global:
     region: "us-east-2"
 image:
   pullPolicy: IfNotPresent
-  tag: "latest"
+  tag: "latest-23"
 
 service:
   type: LoadBalancer

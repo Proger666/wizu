@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: git@github.com:Proger666/wizu.git
+    repoURL: https://github.com/Proger666/wizu.git
     targetRevision: HEAD
     path: kubernetes/helm/webapp
     helm:

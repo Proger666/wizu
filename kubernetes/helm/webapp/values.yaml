@@ -7,7 +7,7 @@ global:
 image:
   pullPolicy: IfNotPresent
   repository: 617850135881.dkr.ecr.us-east-2.amazonaws.com/prod-app
-  tag: "latest-28"
+  tag: "latest-29"
 service:
   type: LoadBalancer
   port: 80

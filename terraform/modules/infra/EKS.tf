@@ -30,7 +30,7 @@ module "eks" {
   eks_managed_node_groups = {
     worker = {
       ami_type       = "AL2_x86_64" # Default EKS AMI type for managed node groups
-      instance_types = ["t3.large"]
+      instance_types = [var.eks_node_instance_type]
       key_name       = var.ssh_key_pair_name
       min_size       = 1
       max_size       = 2
@@ -59,11 +59,15 @@ module "eks_blueprints_addons" {
   enable_aws_load_balancer_controller = true
   enable_argocd                       = true
   argocd = {
-    values = [templatefile("${path.module}/files/argocd_values.yaml", {})]
+    chart_version = "7.7.7"
+    values        = [templatefile("${path.module}/files/argocd_values.yaml", {})]
   }
   enable_external_secrets = true
   external_secrets = {
-    values = [templatefile("${path.module}/files/eso_values.yaml", {})]
+    chart_version = "0.11.0"
+    values = [templatefile("${path.module}/files/eso_values.yaml", {
+      aws_region = var.installation_region
+    })]
   }
   enable_external_dns = true
   external_dns = {

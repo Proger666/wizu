@@ -1,3 +1,5 @@
+dex:
+  enabled: false
 extraObjects:
   - apiVersion: argoproj.io/v1alpha1
     kind: Application

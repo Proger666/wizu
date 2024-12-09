@@ -4,21 +4,36 @@ crds:
 
 extraObjects:
   - apiVersion: external-secrets.io/v1beta1
+    kind: ClusterSecretStore
+    metadata:
+      name: aws-secretsmanager
+    spec:
+      provider:
+        aws:
+          service: SecretsManager
+          region: "${aws_region}"
+          auth:
+            jwt:
+              serviceAccountRef:
+                name: external-secrets-sa
+                namespace: external-secrets
+              audience: sts.amazonaws.com
+  - apiVersion: external-secrets.io/v1beta1
     kind: ExternalSecret
     metadata:
       name: cloudflare-api-token
       namespace: external-dns
     spec:
-      data:
-        - remoteRef:
-            key: prod/cf-token
-            property: token
-          secretKey: cloudflare-api-token
-      refreshInterval: 1h
       secretStoreRef:
         kind: ClusterSecretStore
         name: aws-secretsmanager
+      data:
+        - secretKey: cloudflare-api-token
+          remoteRef:
+            key: prod/cf-token
+            property: token
+      refreshInterval: 1h
       target:
+        name: cloudflare-api-token
         creationPolicy: Owner
         deletionPolicy: Retain
-        name: cloudflare-api-token

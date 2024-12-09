@@ -48,7 +48,7 @@ module "prod_infra" {
   # EKS Configuration
   eks_cluster_name       = "prod-eks-cluster"
   eks_cluster_version    = "1.29"
-  eks_node_instance_type = "t3.small"
+  eks_node_instance_type = "t3.medium"
   # Docker Image for the Web Application
   web_app_image = "jeffthorne/tasky:latest"
 
